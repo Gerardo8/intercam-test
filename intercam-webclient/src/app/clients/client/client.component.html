@@ -65,7 +65,7 @@
           <input
             matInput
             #income="ngModel"
-            type="number"
+            type="text"
             [(ngModel)]="client.income"
             pattern="^\s*(?=.*[1-9])\d*(?:\.\d{1,2})\s*$"
             name="income"
@@ -128,11 +128,7 @@
         </button>
       </td>
       <td>
-        <button
-          type="submit"
-          mat-raised-button
-          color="primary"
-        >
+        <button type="submit" mat-raised-button color="primary">
           Guardar
         </button>
       </td>

@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
+import { Subscription, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { Client } from '../shared/client.model';
 import { ClientService } from '../shared/client.service';
-import { Subscription, of } from 'rxjs';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-client',

@@ -1,20 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+
+import { Subscription, Subject, of } from 'rxjs';
+import { switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { Client } from './shared/client.model';
 import { ClientService } from './shared/client.service';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
-import { Subscription, Subject } from 'rxjs';
-import {
-  switchMap,
-  debounceTime,
-  distinctUntilChanged,
-  takeUntil,
-} from 'rxjs/operators';
-import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-clients',
@@ -24,7 +20,7 @@ import { HttpParams } from '@angular/common/http';
 export class ClientsComponent implements OnInit, OnDestroy {
   private clientGetAllSubscription: Subscription;
   private clientGetByIdSubscription: Subscription;
-  private searchTerms = new Subject<string>();
+  private searchTerms = new Subject<any>();
 
   displayedColumns: string[] = [
     'id',
@@ -66,7 +62,9 @@ export class ClientsComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(350),
         distinctUntilChanged(),
-        switchMap((term) => this.clientService.getById(term))
+        switchMap((term) =>
+          isNaN(term) ? of(null) : this.clientService.getById(term)
+        )
       )
       .subscribe((client) => {
         if (client) {
@@ -99,11 +97,15 @@ export class ClientsComponent implements OnInit, OnDestroy {
     });
 
     this.clientGetAllSubscription = ref.componentInstance.clientDeleted
-      .pipe(switchMap(() => this.clientService.getAll(
-        new HttpParams()
-          .set('page', this.pageEvent.pageIndex.toString())
-          .set('size', this.pageEvent.pageSize.toString())
-      )))
+      .pipe(
+        switchMap(() =>
+          this.clientService.getAll(
+            new HttpParams()
+              .set('page', this.pageEvent.pageIndex.toString())
+              .set('size', this.pageEvent.pageSize.toString())
+          )
+        )
+      )
       .subscribe((clientPage) => {
         this.dataSource = new MatTableDataSource(clientPage.clientList);
         this.pageLength = clientPage.totalElements;
