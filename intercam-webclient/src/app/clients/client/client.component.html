@@ -1,0 +1,141 @@
+<form #clientForm="ngForm" (submit)="save(clientForm)">
+  <table cellspacing="7">
+    <tr>
+      <td>
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            #name="ngModel"
+            type="text"
+            [(ngModel)]="client.name"
+            name="name"
+            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ]*$"
+            required
+          />
+          <mat-error *ngIf="name.hasError('required')">
+            Nombre es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="name.hasError('pattern')">
+            Solo caracteres alfabéticos son permitidos.
+          </mat-error>
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <mat-label>Apellido Paterno</mat-label>
+          <input
+            matInput
+            #fatherName="ngModel"
+            type="text"
+            [(ngModel)]="client.fatherName"
+            name="fatherName"
+            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ]*$"
+            required
+          />
+          <mat-error *ngIf="fatherName.hasError('required')">
+            Apellido Paterno es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="fatherName.hasError('pattern')">
+            Solo caracteres alfabéticos son permitidos.
+          </mat-error>
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <mat-label>Apellido Materno</mat-label>
+          <input
+            matInput
+            #motherName="ngModel"
+            type="text"
+            [(ngModel)]="client.motherName"
+            name="motherName"
+            pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ]*$"
+          />
+          <mat-error *ngIf="motherName.hasError('pattern')">
+            Solo caracteres alfabéticos son permitidos.
+          </mat-error>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field>
+          <mat-label>Ingresos</mat-label>
+          <input
+            matInput
+            #income="ngModel"
+            type="number"
+            [(ngModel)]="client.income"
+            pattern="^\s*(?=.*[1-9])\d*(?:\.\d{1,2})\s*$"
+            name="income"
+          />
+          <mat-error *ngIf="income.hasError('pattern')">
+            Solo caracteres decimales mayore a cero son permitidos.
+          </mat-error>
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field>
+          <mat-label>Código Postal</mat-label>
+          <input
+            matInput
+            #postalCode="ngModel"
+            type="text"
+            [(ngModel)]="client.postalCode"
+            name="postalCode"
+            maxlength="5"
+            pattern="^[0-9]*$"
+            required
+          />
+          <mat-error *ngIf="postalCode.hasError('required')">
+            Código Postal es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="postalCode.hasError('pattern')">
+            Solo caracteres numéricos son permitidos.
+          </mat-error>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field>
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input
+            matInput
+            #birthDate="ngModel"
+            [(ngModel)]="client.birthDate"
+            name="birthDate"
+            required
+            [max]="maxDate"
+            [matDatepicker]="picker"
+          />
+          <mat-error *ngIf="birthDate.hasError('required')">
+            Fecha de nacimiento es <strong>requerido</strong>
+          </mat-error>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button type="button" mat-raised-button (click)="cancel()">
+          Cancelar
+        </button>
+      </td>
+      <td>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+        >
+          Guardar
+        </button>
+      </td>
+    </tr>
+  </table>
+</form>

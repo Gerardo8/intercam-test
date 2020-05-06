@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS CLIENTS;
+CREATE TABLE CLIENTS (
+    id   INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR(512) NOT NULL,
+    father_name VARCHAR(512) NOT NULL,
+    mother_name VARCHAR(512),
+    birth_date DATE NOT NULL,
+    income DECIMAL(20, 2),
+    postal_code VARCHAR(6) NOT NULL,
+    PRIMARY KEY (id)
+);

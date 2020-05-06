@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>¿Eliminar registro?</h1>
+<div mat-dialog-content>
+  <p>El cliente {{ data.client.name }} se eliminara.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button color="warn" (click)="delete()" cdkFocusInitial>
+    Borrar
+  </button>
+</div>
